@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import firebase from '../Config/firebase';
 import {withRouter} from 'react-router-dom';
+import {Form, Col, Button} from 'react-bootstrap';
 
 class Login extends Component{
     constructor(props){
         super(props);
-        console.log(this.props.title);
+        //console.log(this.props.title);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
@@ -16,9 +17,10 @@ class Login extends Component{
     handleSubmit(event){
         firebase.auth.signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(()=>{
-            console.log('Login');
+            console.log('Login Successful');
+            localStorage.setItem('login',this.state.email);
             const {history} = this.props;
-            history.push('/registroq');
+            history.push('/');
         })
         .catch(error=>{
             console.log('Error: ',error);
@@ -36,21 +38,25 @@ class Login extends Component{
     }
     render(){
         return(
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <div>
-                        <label>Emailo</label>
-                        <input type="email" name="email" value={this.state.usuario} onChange={this.handleChange} ></input>
-
-                    </div>
-                    <div>
-                        <label>Contraseña</label>
-                        <input type="password" name="password" value={this.state.password} onChange={this.handleChange} ></input>
-
-                    </div>
-                    <button type="submit">Ingresar</button>
-                </form>
-            </div>
+            <Form onSubmit={this.handleSubmit}>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" name="email" value={this.state.usuario} onChange={this.handleChange} placeholder="Ingrese su email" />
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+          
+              <Form.Group as={Col} controlId="formGridPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password" />
+              </Form.Group>
+            </Form.Row>
+        
+            <Button variant="primary" type="submit">
+              Ingresar
+            </Button>
+          </Form>
 
         )
     }

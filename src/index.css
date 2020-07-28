@@ -16,4 +16,9 @@ footer {
   text-align: right;
   color: blueviolet;
   size: 10vmax;
+  padding-top: 7.5px;
+  text-align: right;
+}
+.redes {
+  text-align: center;
 }

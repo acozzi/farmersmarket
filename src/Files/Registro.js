@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
-import firebase from '../Config/firebase'
+import firebase from '../Config/firebase';
+import {Form,Col, Button} from 'react-bootstrap';
 
 function Registro(){
     const history = useHistory();
     const [form, setForm] = useState({nombre:'',apellido:'',email:'',password:''});
     function handleClick(){
-        
         history.push("/");
     }
     function handleSubmit(e){
@@ -47,32 +47,34 @@ function Registro(){
         
     }
     return(
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Nombres</label>
-                    <input type="text" name="nombre" value={form.usuario} onChange={handleChange}></input>
-                </div>
-                <div>
-                    <label>Apellido</label>
-                    <input type="text" name="apellido" value={form.usuario} onChange={handleChange}></input>
-                </div>
-                <div>
-                    <label>Email</label>
-                    <input type="email" name="email" value={form.usuario} onChange={handleChange}></input>
-                </div>
-                
-                <div>
-                    <label>Contraseña</label>
-                    <input type="password" name="password" value={form.password} onChange={handleChange}></input>
-                </div>
-                <button type="submit">Registrarme</button>
-            </form>
-            <button onClick={handleClick} >Ir a home</button>
-        </div>
+        <Form onSubmit={handleSubmit}>
+        <Form.Row>
+            <Form.Group as={Col} controlId="formGridCity">
+              <Form.Label>Nombre</Form.Label>
+              <Form.Control type="text" name="nombre" value={form.usuario} onChange={handleChange} />
+            </Form.Group>    
+            <Form.Group as={Col} controlId="formGridZip">
+              <Form.Label>Apellido</Form.Label>
+              <Form.Control type="text" name="apellido" value={form.usuario} onChange={handleChange}/>
+            </Form.Group>
+          </Form.Row>
+    
+        <Form.Row>
+          <Form.Group as={Col} controlId="formGridEmail">
+            <Form.Label>Email</Form.Label>
+            <Form.Control type="email" name="email" value={form.usuario} onChange={handleChange} placeholder="Ingrese su email" />
+          </Form.Group>
+      
+          <Form.Group as={Col} controlId="formGridPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" name="password" value={form.password} onChange={handleChange} placeholder="Password" />
+          </Form.Group>
+        </Form.Row>
+    
+        <Button variant="primary" type="submit">
+          Registrarme
+        </Button>
+      </Form>
     )
 }
-
 export default Registro;
-
-

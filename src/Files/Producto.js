@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import firebase from '../Config/firebase'
 import { useHistory } from "react-router-dom";
+import {Card, Button} from 'react-bootstrap';
 function Producto(props){
     const history = useHistory();
 
@@ -15,20 +16,35 @@ function Producto(props){
                 console.log(doc.data())
             })
     }, []); 
+    function handleClick(){
+        let cantidad = 1;
+        console.log('Sumar al carrito');
+        if(localStorage.getItem(datos.sku)!=null){
+            console.log('El producto ya existe, sumar otro');
+            cantidad = parseInt(localStorage.getItem(datos.sku));
+            cantidad++;
+            localStorage.setItem(datos.sku,cantidad);
+        } else {
+            console.log('Primer compra, sumar al carrito');
+            localStorage.setItem(datos.sku,cantidad);
+        }
+        
+    }
     return(
-        <div>
-            <ul>
-                <li>
-                    <h1>Tipo {datos.tipo}</h1>            
-                    <h3>Precio: {datos.precio}</h3>
-                    <h3>Maduración: {datos.maduracion}</h3>
-                    <h3>Presentación: {datos.presentacion}</h3>
-                    <img src={datos.foto} className="App-foto" alt={datos.tipo} width="30%" />
-                    <h2>Descripción: {datos.comentario}</h2>
-                    
-                </li>
-            </ul>
-         </div>
+        <Card style={{ width: '28rem' }}>
+    <Card.Img variant="top" src={datos.foto} />
+    <Card.Body>
+      <Card.Title>{datos.tipo}</Card.Title>
+      <Card.Text>
+            <h5>Precio: ${datos.precio},00</h5>
+            <h5>Maduración: {datos.maduracion}</h5>
+            <h5>Presentación: {datos.presentacion}</h5>
+            <h5>SKU: {datos.sku}</h5>
+            <h5>Descripción: {datos.comentario}</h5>
+      </Card.Text>
+      <Button variant="primary" onClick={handleClick}>Sumar al Carrito</Button>
+    </Card.Body>
+  </Card>
     )
 }
 

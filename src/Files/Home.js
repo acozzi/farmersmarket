@@ -1,31 +1,28 @@
 import React,{Component} from 'react';
 import firebase from '../Config/firebase'
 import Queso from '../Files/Queso';
-
+import {Carousel} from 'react-bootstrap';
 
 class Home extends Component{
     constructor(){
         super()
         this.state={
-            perfiles:[],
+            productos:[],
             isLoaded:false
         }
     }
     componentDidMount(){
-        if(localStorage.getItem("login")){
-            firebase.db.collection("productos")
-            .get()
-            .then(querySnapshot=>{
-                console.log("Cargar Productos",querySnapshot.docs)
-                this.setState({
-                    perfiles:querySnapshot.docs,
-                    isLoaded:true
-                })
-                
-                
+        firebase.db.collection("productos")
+        .get()
+        .then(querySnapshot=>{
+            console.log("Cargar Productos",querySnapshot.docs)
+            this.setState({
+                productos:querySnapshot.docs,
+                isLoaded:true
             })
-        }
-        
+            
+            
+        })
     }
     render(){
         if(!this.state.isLoaded){
@@ -39,10 +36,12 @@ class Home extends Component{
             return(
                 <div>
                     Productos
-                    {this.state.perfiles.map((doc)=>
-                        <Queso datos={doc.data()} id={doc.id}/>)
-                    }
                     
+                        {this.state.productos.map((doc)=>
+                            <Queso datos={doc.data()} id={doc.id}/>)
+                        }   
+                   
+                           
                 </div>
             )
         }
